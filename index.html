@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Breadth First Search (BFS) — Graph Traversal &amp; Interactive Visualizer</title>
+  <meta name="description" content="A minimal, interactive educational webpage for Breadth First Search (BFS) graph traversal and FIFO queue trace." />
+
+  <!-- Google Fonts: Geist & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600;700&family=Geist:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ========================================================================
+       1. MINIMAL STICKY HEADER
+       ======================================================================== -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#hero" class="brand">
+        <span class="brand-title">Breadth First Search</span>
+      </a>
+      <nav aria-label="Main Navigation">
+        <ul class="nav-links">
+          <li><a href="#overview" class="nav-link">Overview</a></li>
+          <li><a href="#simulation" class="nav-link">Traversal</a></li>
+          <li><a href="#pseudocode" class="nav-link">Pseudocode</a></li>
+          <li><a href="#complexity" class="nav-link">Complexity</a></li>
+          <li><a href="#applications" class="nav-link">Applications</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- ======================================================================
+         2. HERO SECTION
+         ====================================================================== -->
+    <section id="hero" class="hero">
+      <div class="container">
+        <div class="hero-badge-wrap">
+          <span class="hero-badge">Graph Algorithm</span>
+          <span class="hero-badge-sub">Interactive Traversal Guide</span>
+        </div>
+        <h1 class="hero-title">Breadth First Search</h1>
+        <p class="hero-subtitle">
+          A level-by-level graph traversal algorithm based on the FIFO queue principle.
+        </p>
+        <p class="hero-description">
+          Breadth First Search (BFS) explores vertices layer by layer from a starting vertex, visiting immediate neighbours before moving to deeper levels.
+        </p>
+
+        <!-- 4 Typographic Stat Blocks -->
+        <div class="stat-grid">
+          <div class="stat-block">
+            <span class="stat-label">Time Complexity</span>
+            <span class="stat-value">O(V + E)</span>
+            <span class="stat-note">Optimal linear time (Adjacency List)</span>
+          </div>
+          <div class="stat-block">
+            <span class="stat-label">Space Complexity</span>
+            <span class="stat-value">O(V)</span>
+            <span class="stat-note">Queue &amp; Visited marker storage</span>
+          </div>
+          <div class="stat-block">
+            <span class="stat-label">Data Structure</span>
+            <span class="stat-value">FIFO Queue</span>
+            <span class="stat-note">First-In-First-Out discipline</span>
+          </div>
+          <div class="stat-block">
+            <span class="stat-label">Key Property</span>
+            <span class="stat-value">Shortest Path</span>
+            <span class="stat-note">Guaranteed in unweighted graphs</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         3. WHAT IS BFS?
+         ====================================================================== -->
+    <section id="overview" class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Core Concept</span>
+          <h2 class="section-title">What is Breadth First Search?</h2>
+        </div>
+
+        <div class="card-main">
+          <p class="overview-text">
+            <strong>Breadth First Search (BFS)</strong> is a graph traversal algorithm that systematically explores all vertices of a graph level by level, starting from a designated source vertex. It visits all immediate (adjacent) neighbours of the current node before progressing to nodes at the next depth level, using a <strong>First-In-First-Out (FIFO) queue</strong> and a <strong>visited set</strong> to prevent duplicate traversal and infinite cycle loops.
+          </p>
+
+          <div class="concept-grid">
+            <div class="concept-card">
+              <h3 class="concept-title">Level-by-Level Expansion</h3>
+              <p class="concept-desc">
+                BFS systematically explores all immediate neighbours of the current frontier before advancing to deeper node layers.
+              </p>
+            </div>
+
+            <div class="concept-card">
+              <h3 class="concept-title">FIFO Queue</h3>
+              <p class="concept-desc">
+                The queue follows the First-In-First-Out principle, ensuring that vertices discovered earlier are dequeued and processed earlier.
+              </p>
+            </div>
+
+            <div class="concept-card">
+              <h3 class="concept-title">Visited Set</h3>
+              <p class="concept-desc">
+                A visited marker prevents the same vertex from being processed repeatedly, eliminating duplicate work and infinite cycle traps.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         4. MAIN FEATURE — INTERACTIVE BFS SIMULATION
+         ====================================================================== -->
+    <section id="simulation" class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Interactive Visualizer</span>
+          <h2 class="section-title">BFS Traversal Simulation</h2>
+          <p class="section-subtitle">
+            Step through the example from the poster and see how the FIFO queue drives the traversal.
+          </p>
+        </div>
+
+        <!-- Simulation Container Card -->
+        <div class="sim-container">
+          <!-- Top Bar -->
+          <div class="sim-top-bar">
+            <div class="sim-tags">
+              <span class="sim-tag">LEVEL ORDER</span>
+              <span class="sim-tag">FIFO QUEUE</span>
+              <span class="sim-tag">VISITED SET</span>
+            </div>
+            <div class="sim-source-indicator">
+              <span>Source Vertex:</span>
+              <strong>Node A (Level 0)</strong>
+            </div>
+          </div>
+
+          <!-- Simulation Body: Left Graph + Right State Panels -->
+          <div class="sim-body-grid">
+            <!-- Left: SVG Graph Canvas -->
+            <div class="graph-canvas-wrap">
+              <div class="graph-header-strip">
+                <span class="section-tag" style="margin-bottom:0;">Graph Structure &amp; Levels</span>
+                <div class="graph-legend">
+                  <div class="legend-item">
+                    <span class="legend-dot unvisited"></span>
+                    <span>Unvisited</span>
+                  </div>
+                  <div class="legend-item">
+                    <span class="legend-dot queued"></span>
+                    <span>Queued</span>
+                  </div>
+                  <div class="legend-item">
+                    <span class="legend-dot current"></span>
+                    <span>Current</span>
+                  </div>
+                  <div class="legend-item">
+                    <span class="legend-dot visited"></span>
+                    <span>Visited</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Scalable SVG Canvas -->
+              <div class="svg-canvas-container">
+                <svg id="graphSvg" class="graph-svg" viewBox="0 0 540 330" preserveAspectRatio="xMidYMid meet" aria-label="Interactive BFS Graph Visualization">
+                  <!-- Generated dynamically by app.js -->
+                </svg>
+              </div>
+            </div>
+
+            <!-- Right: Live State Panels -->
+            <div class="sim-state-panel">
+              <!-- FIFO Queue Box -->
+              <div class="state-card">
+                <div class="state-card-header">
+                  <div class="state-card-title">
+                    <span>Queue State</span>
+                  </div>
+                  <span class="state-card-badge">FIFO</span>
+                </div>
+                <div class="queue-track-wrap">
+                  <div class="queue-direction-labels">
+                    <span>FRONT (Dequeue ↓)</span>
+                    <span>REAR (Enqueue ↑)</span>
+                  </div>
+                  <div id="queueTrack" class="queue-track" aria-live="polite">
+                    <!-- Dynamic queue items -->
+                  </div>
+                </div>
+                <p class="state-helper-text">
+                  Items pop from the left (FRONT) and enter at the right (REAR).
+                </p>
+              </div>
+
+              <!-- Visited Set Box -->
+              <div class="state-card">
+                <div class="state-card-header">
+                  <div class="state-card-title">
+                    <span>Visited Set</span>
+                  </div>
+                  <span class="state-card-badge">{ V }</span>
+                </div>
+                <div id="visitedList" class="pill-list" aria-live="polite">
+                  <!-- Dynamic visited pills -->
+                </div>
+                <p class="state-helper-text">
+                  Visited nodes are not added again, preventing repeated traversal.
+                </p>
+              </div>
+
+              <!-- Traversal Order Box -->
+              <div class="state-card">
+                <div class="state-card-header">
+                  <div class="state-card-title">
+                    <span>Traversal Order</span>
+                  </div>
+                  <span class="state-card-badge">Level Sequence</span>
+                </div>
+                <div id="traversalSequence" class="traversal-sequence" aria-live="polite">
+                  <!-- Dynamic traversal order nodes -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step Explanation Bar -->
+          <div class="sim-explanation-bar">
+            <span id="stepBadge" class="step-indicator-badge">READY</span>
+            <div class="step-details">
+              <div class="step-headline-wrap">
+                <h4 id="stepHeadline" class="step-headline">Initial State (Source s = A)</h4>
+                <span id="codeLineTag" class="code-line-tag">Code: Line 1</span>
+              </div>
+              <p id="stepDescription" class="step-description">
+                The graph is in its neutral state. Click "Start BFS" or "Next Step" to begin level-order exploration from source vertex A.
+              </p>
+            </div>
+          </div>
+
+          <!-- Completion Banner -->
+          <div id="completionBanner" class="completion-banner">
+            <div class="completion-info">
+              <span class="completion-tag">BFS COMPLETE</span>
+              <div>
+                <p class="completion-text"><strong>All reachable vertices visited in level order:</strong> A → B → C → D → E → F</p>
+                <p class="completion-sub">The FIFO queue is now empty. Shortest unit paths established for all nodes.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Control Bar -->
+          <div class="sim-controls-bar">
+            <div class="control-btn-group">
+              <button id="btnStart" class="btn btn-primary" aria-label="Start BFS Simulation">
+                <span>Start BFS</span>
+              </button>
+              <button id="btnNext" class="btn btn-secondary" aria-label="Next Step">
+                <span>Next Step</span>
+              </button>
+              <button id="btnAutoPlay" class="btn btn-outline" aria-label="Auto Play Traversal">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                <span>Auto Play</span>
+              </button>
+              <button id="btnReset" class="btn btn-outline" aria-label="Reset Simulation">
+                <span>Reset</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Static Trace Table -->
+        <div class="trace-table-section">
+          <div id="tableContainer" class="table-responsive">
+            <table class="clean-table" aria-label="Graph Traversal and FIFO Queue State Trace Table">
+              <thead>
+                <tr>
+                  <th>Step</th>
+                  <th>Action / Node</th>
+                  <th>Queue Operation</th>
+                  <th>Queue State</th>
+                  <th>Visited Set</th>
+                  <th>Traversal Order</th>
+                </tr>
+              </thead>
+              <tbody id="traceTableBody">
+                <!-- Dynamically populated and highlighted by app.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- What to Observe Card -->
+        <div class="observe-card">
+          <h4 class="observe-title">What to Observe During Traversal</h4>
+          <ul class="observe-list">
+            <li class="observe-item">
+              <span class="observe-bullet">•</span>
+              <span><strong>FIFO Discipline:</strong> Vertices enter at the rear and are removed strictly from the front.</span>
+            </li>
+            <li class="observe-item">
+              <span class="observe-bullet">•</span>
+              <span><strong>Level-by-Level Discovery:</strong> All nodes at distance <em>k</em> (Level 1) are popped before nodes at <em>k+1</em> (Level 2).</span>
+            </li>
+            <li class="observe-item">
+              <span class="observe-bullet">•</span>
+              <span><strong>Cycle &amp; Duplicate Protection:</strong> Visited vertices are marked immediately upon discovery to prevent duplicate enqueuing.</span>
+            </li>
+            <li class="observe-item">
+              <span class="observe-bullet">•</span>
+              <span><strong>Termination Guarantee:</strong> Traversal terminates definitively as soon as the queue becomes empty.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         5. BFS PSEUDOCODE
+         ====================================================================== -->
+    <section id="pseudocode" class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Formal Specification</span>
+          <h2 class="section-title">BFS Pseudocode</h2>
+          <p class="section-subtitle">
+            Standard algorithm specification utilizing an auxiliary FIFO queue and visited set.
+          </p>
+        </div>
+
+        <div class="code-container">
+          <div class="code-header">
+            <div class="code-header-left">
+              <div class="code-mac-dots">
+                <span class="mac-dot"></span>
+                <span class="mac-dot"></span>
+                <span class="mac-dot"></span>
+              </div>
+              <span class="code-title">bfs_traversal.algo</span>
+              <span class="code-badge">FIFO QUEUE-BASED TRAVERSAL</span>
+            </div>
+            <button id="copyCodeBtn" class="btn btn-copy" aria-label="Copy pseudocode to clipboard">Copy</button>
+          </div>
+          <div class="code-body">
+            <pre><code id="pseudocodeBlock"><div class="code-line" id="code-line-1"><span class="line-num">1</span><span class="line-text"><span class="token-fn">BFS</span>(start)</span></div><div class="code-line" id="code-line-2"><span class="line-num">2</span><span class="line-text">    Queue <span class="token-op">←</span> empty</span></div><div class="code-line" id="code-line-3"><span class="line-num">3</span><span class="line-text">    <span class="token-kw">Add</span> start <span class="token-kw">to</span> Queue</span></div><div class="code-line" id="code-line-4"><span class="line-num">4</span><span class="line-text">    <span class="token-kw">Mark</span> start <span class="token-kw">as</span> visited</span></div><div class="code-line" id="code-line-5"><span class="line-num">5</span><span class="line-text"></span></div><div class="code-line" id="code-line-6"><span class="line-num">6</span><span class="line-text">    <span class="token-kw">while</span> Queue <span class="token-kw">is not empty</span></span></div><div class="code-line" id="code-line-7"><span class="line-num">7</span><span class="line-text">        node <span class="token-op">←</span> <span class="token-kw">remove front element from</span> Queue</span></div><div class="code-line" id="code-line-8"><span class="line-num">8</span><span class="line-text">        <span class="token-fn">print</span> node</span></div><div class="code-line" id="code-line-9"><span class="line-num">9</span><span class="line-text"></span></div><div class="code-line" id="code-line-10"><span class="line-num">10</span><span class="line-text">        <span class="token-kw">for each</span> neighbour <span class="token-kw">of</span> node</span></div><div class="code-line" id="code-line-11"><span class="line-num">11</span><span class="line-text">            <span class="token-kw">if</span> neighbour <span class="token-kw">is not visited</span></span></div><div class="code-line" id="code-line-12"><span class="line-num">12</span><span class="line-text">                <span class="token-kw">Mark</span> neighbour <span class="token-kw">as</span> visited</span></div><div class="code-line" id="code-line-13"><span class="line-num">13</span><span class="line-text">                <span class="token-kw">Add</span> neighbour <span class="token-kw">to</span> Queue</span></div><div class="code-line" id="code-line-14"><span class="line-num">14</span><span class="line-text">            <span class="token-kw">end if</span></span></div><div class="code-line" id="code-line-15"><span class="line-num">15</span><span class="line-text">        <span class="token-kw">end for</span></span></div><div class="code-line" id="code-line-16"><span class="line-num">16</span><span class="line-text">    <span class="token-kw">end while</span></span></div><div class="code-line" id="code-line-17"><span class="line-num">17</span><span class="line-text"><span class="token-fn">end BFS</span></span></div></code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         6. HOW BFS WORKS (NUMBERED TIMELINE)
+         ====================================================================== -->
+    <section id="algorithm" class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Algorithm Breakdown</span>
+          <h2 class="section-title">How BFS Traverses a Graph</h2>
+          <p class="section-subtitle">
+            A step-by-step procedural breakdown of the Breadth First Search execution loop.
+          </p>
+        </div>
+
+        <div class="timeline-grid">
+          <div class="timeline-card">
+            <div class="timeline-step-num">01</div>
+            <div class="timeline-step-content">
+              <h4>Select Source</h4>
+              <p>Identify the starting vertex <em>s</em> from which the graph traversal will begin.</p>
+            </div>
+          </div>
+
+          <div class="timeline-card">
+            <div class="timeline-step-num">02</div>
+            <div class="timeline-step-content">
+              <h4>Mark as Visited</h4>
+              <p>Mark the starting vertex as visited to prevent subsequent re-visitation.</p>
+            </div>
+          </div>
+
+          <div class="timeline-card">
+            <div class="timeline-step-num">03</div>
+            <div class="timeline-step-content">
+              <h4>Enqueue Source</h4>
+              <p>Add the starting vertex to the initially empty FIFO queue.</p>
+            </div>
+          </div>
+
+          <div class="timeline-card">
+            <div class="timeline-step-num">04</div>
+            <div class="timeline-step-content">
+              <h4>Dequeue Front</h4>
+              <p>Remove the front vertex from the FIFO queue and process / print it.</p>
+            </div>
+          </div>
+
+          <div class="timeline-card">
+            <div class="timeline-step-num">05</div>
+            <div class="timeline-step-content">
+              <h4>Examine Neighbours</h4>
+              <p>Inspect all adjacent vertices connected to the dequeued node.</p>
+            </div>
+          </div>
+
+          <div class="timeline-card">
+            <div class="timeline-step-num">06</div>
+            <div class="timeline-step-content">
+              <h4>Mark &amp; Enqueue</h4>
+              <p>For each unvisited neighbour, mark it as visited and add it to the rear of the queue.</p>
+            </div>
+          </div>
+
+          <div class="timeline-card">
+            <div class="timeline-step-num">07</div>
+            <div class="timeline-step-content">
+              <h4>Repeat Until Empty</h4>
+              <p>Continue dequeuing and exploring until the FIFO queue contains no more vertices.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         7. COMPLEXITY ANALYSIS
+         ====================================================================== -->
+    <section id="complexity" class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Resource Metrics</span>
+          <h2 class="section-title">Complexity Analysis</h2>
+          <p class="section-subtitle">
+            Asymptotic time and space performance across graph representations.
+          </p>
+        </div>
+
+        <div class="complexity-grid">
+          <div class="complexity-card">
+            <div class="complexity-badge">Adjacency List Representation</div>
+            <div class="complexity-formula">O(V + E)</div>
+            <p class="complexity-desc">
+              Optimal linear time. Each vertex is enqueued and dequeued at most once <code>O(V)</code>, and each adjacency edge is inspected exactly once in directed graphs (or twice in undirected graphs) <code>O(E)</code>.
+            </p>
+          </div>
+
+          <div class="complexity-card">
+            <div class="complexity-badge">Adjacency Matrix Representation</div>
+            <div class="complexity-formula">O(V²)</div>
+            <p class="complexity-desc">
+              For each of the <em>V</em> vertices dequeued, scanning for adjacent neighbours requires traversing an entire row of length <em>V</em>, yielding quadratic time overhead regardless of the edge count.
+            </p>
+          </div>
+        </div>
+
+        <!-- Comparison Table -->
+        <div class="table-responsive">
+          <table class="clean-table" aria-label="Complexity comparison table">
+            <thead>
+              <tr>
+                <th>Representation</th>
+                <th>Time Complexity</th>
+                <th>Space Complexity</th>
+                <th>Shortest Path Property</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Adjacency List</strong></td>
+                <td class="mono">O(V + E)</td>
+                <td class="mono">O(V)</td>
+                <td>Guaranteed minimum hop-count for unweighted graphs</td>
+              </tr>
+              <tr>
+                <td><strong>Adjacency Matrix</strong></td>
+                <td class="mono">O(V²)</td>
+                <td class="mono">O(V)</td>
+                <td>Guaranteed minimum hop-count for unweighted graphs</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         8. KEY PROPERTIES
+         ====================================================================== -->
+    <section id="properties" class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Mathematical Guarantees</span>
+          <h2 class="section-title">Analytical Properties</h2>
+        </div>
+
+        <div class="properties-grid">
+          <div class="property-card">
+            <h3 class="property-header">Shortest Path Optimality</h3>
+            <p class="property-desc">
+              For unweighted graphs, BFS is mathematically guaranteed to find the shortest path (minimum edge hops) from the source vertex <em>s</em> to every reachable vertex <em>v</em>.
+            </p>
+          </div>
+
+          <div class="property-card">
+            <h3 class="property-header">Connected Components</h3>
+            <p class="property-desc">
+              BFS explores all vertices reachable from a starting node, enabling reliable partitioning of disconnected graphs into distinct equivalence classes in <code>O(V + E)</code> time.
+            </p>
+          </div>
+
+          <div class="property-card">
+            <h3 class="property-header">Bipartiteness Verification</h3>
+            <p class="property-desc">
+              BFS can verify if a graph is bipartite (2-colorable) by alternating colors across successive tree levels and checking for odd-length cycle edge collisions.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         9. REAL-WORLD APPLICATIONS
+         ====================================================================== -->
+    <section id="applications" class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Practical Systems</span>
+          <h2 class="section-title">Real-World Applications</h2>
+          <p class="section-subtitle">
+            Where Breadth First Search powers modern computing and network architectures.
+          </p>
+        </div>
+
+        <div class="apps-grid">
+          <div class="app-card">
+            <div class="app-header">
+              <h3 class="app-title">Network Routing</h3>
+            </div>
+            <p class="app-desc">
+              Routing protocols use BFS to determine minimum-hop paths across network switches and routers to minimize latency.
+            </p>
+          </div>
+
+          <div class="app-card">
+            <div class="app-header">
+              <h3 class="app-title">Web Crawling</h3>
+            </div>
+            <p class="app-desc">
+              Search engine spiders traverse hyperlinks level by level starting from seed URLs to index web pages hierarchically.
+            </p>
+          </div>
+
+          <div class="app-card">
+            <div class="app-header">
+              <h3 class="app-title">Social Network Analysis</h3>
+            </div>
+            <p class="app-desc">
+              Platforms compute degrees of separation (e.g. 1st, 2nd, and 3rd-degree connection graphs) between users.
+            </p>
+          </div>
+
+          <div class="app-card">
+            <div class="app-header">
+              <h3 class="app-title">Garbage Collection</h3>
+            </div>
+            <p class="app-desc">
+              Cheney's copying algorithm traverses reachable heap objects level-by-level starting from stack roots to safely reclaim memory.
+            </p>
+          </div>
+
+          <div class="app-card" style="grid-column: 1 / -1;">
+            <div class="app-header">
+              <h3 class="app-title">P2P Broadcasting &amp; Flooding</h3>
+            </div>
+            <p class="app-desc">
+              Peer-to-peer protocols distribute broadcast packets across connected nodes with duplicate suppression to avoid transmission cycles.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         10. ADVANTAGES & LIMITATIONS
+         ====================================================================== -->
+    <section id="tradeoffs" class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Engineering Tradeoffs</span>
+          <h2 class="section-title">Advantages &amp; Limitations</h2>
+        </div>
+
+        <div class="comparison-grid">
+          <div class="comparison-card">
+            <h3 class="comparison-title">Advantages</h3>
+            <ul class="comparison-list">
+              <li>
+                <span>•</span>
+                <span><strong>Level-by-Level Exploration:</strong> Discovers nodes closest to the source first, optimal for shallow searches.</span>
+              </li>
+              <li>
+                <span>•</span>
+                <span><strong>Guaranteed Termination:</strong> Always terminates reliably on finite graphs without getting trapped in infinite depth loops.</span>
+              </li>
+              <li>
+                <span>•</span>
+                <span><strong>Minimum-Hop Paths:</strong> Provides guaranteed shortest paths in terms of edge count for unweighted networks.</span>
+              </li>
+              <li>
+                <span>•</span>
+                <span><strong>Connectivity Analysis:</strong> Accurately identifies connected components and reachability frontiers.</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="comparison-card">
+            <h3 class="comparison-title">Limitations</h3>
+            <ul class="comparison-list">
+              <li>
+                <span>•</span>
+                <span><strong>High Memory Overhead:</strong> For graphs with high branching factor <em>b</em>, the queue must store up to <code>O(b<sup>d</sup>)</code> nodes at depth <em>d</em>.</span>
+              </li>
+              <li>
+                <span>•</span>
+                <span><strong>Non-Uniform Edge Weights:</strong> Fails to calculate true shortest paths when edges have varying weights (requires Dijkstra's Algorithm).</span>
+              </li>
+              <li>
+                <span>•</span>
+                <span><strong>Queue Scaling:</strong> Auxiliary memory footprint scales with maximum frontier width rather than graph height.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         11. KEY TAKEAWAY CARD
+         ====================================================================== -->
+    <section id="takeaway" class="section">
+      <div class="container">
+        <div class="takeaway-card">
+          <div class="takeaway-tag">Key Takeaway</div>
+          <h3 class="takeaway-statement">
+            BFS explores a graph level by level using a FIFO queue.
+          </h3>
+          <div class="takeaway-flow">
+            <span class="flow-step">ENQUEUE SOURCE</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">DEQUEUE FRONT</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">MARK VISITED</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">ENQUEUE UNVISITED NEIGHBOURS</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ========================================================================
+       12. FOOTER — BFS TECHNICAL REFERENCE & GUIDE
+       ======================================================================== -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <h4 class="footer-title">Breadth First Search (BFS) Guide</h4>
+      <p class="footer-desc">
+        An interactive graph traversal reference illustrating level-by-level exploration, FIFO queue discipline, and optimal shortest-path discovery in unweighted graphs.
+      </p>
+    </div>
+  </footer>
+
+  <!-- Main JavaScript Application -->
+  <script src="app.js"></script>
+</body>
+</html>
